@@ -1,0 +1,84 @@
+/* Universal Styles */
+body {
+  font-family: 'Rubik', sans-serif;
+  font-size: 1rem;
+  color: hsl(211, 10%, 45%);
+  background-color: hsl(223, 19%, 93%);
+}
+
+/* Main */
+
+/* Main .comment-section */
+.comment-section {
+  padding: 1rem;
+}
+/* Main .comment */
+.comment {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: hsl(0, 0%, 100%);
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+/* Main .comment-details */
+.comment-details {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.avatar-user {
+  width: 24px;
+  height: 24px;
+}
+
+.avatar-user, .comment-details > div:first-of-type{
+  margin-right: 1rem;
+}
+
+.comment-details > div:first-of-type {
+  color: hsl(212, 24%, 26%);
+  font-weight: 600;
+}
+/* Main .comment > div:nth-of-type(2) (content div) */ 
+.comment > div:nth-of-type(2) {
+  margin-bottom: 1rem;
+  line-height: 1.5rem;
+}
+/* Main .likes-container */
+.likes-container {
+  display: flex;
+  align-items: center;
+  padding: .5rem;
+  background-color: hsl(223, 19%, 93%);
+  border-radius: 10px;
+  color: hsl(238, 40%, 52%);
+  font-weight: 500;
+}
+
+.icon-plus {
+  width: 11px;
+  height: 11px;
+  margin-right: .75rem;
+}
+
+.icon-minus {
+  width: 11px;
+  height: 3px;
+  margin-left: .75rem;
+}
+/* Main .reply-container */
+.reply-container {
+  display: flex;
+  align-items: center;
+  color: hsl(238, 40%, 52%);
+  font-weight: 500;
+}
+
+.icon-reply {
+  width: 14px;
+  height: 13px;
+  margin-right: .25rem;
+}
