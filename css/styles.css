@@ -47,6 +47,11 @@ body {
   margin-bottom: 1rem;
   line-height: 1.5rem;
 }
+
+.replyingTo {
+  color: hsl(238, 40%, 52%);
+  font-weight: 500;
+}
 /* Main .likes-container */
 .likes-container {
   display: flex;
@@ -81,4 +86,11 @@ body {
   width: 14px;
   height: 13px;
   margin-right: .25rem;
+}
+/* Main .replies-list */
+.replies-list {
+  width: 100%;
+  border-left: 2px solid hsl(239, 57%, 85%);
+  margin-left: auto;
+  padding-left: 5%;
 }
