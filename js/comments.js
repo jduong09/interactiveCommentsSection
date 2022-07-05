@@ -1,4 +1,4 @@
-function createReplies(comment) {
+function createReplies(comment, currentUser) {
   const replies = comment.replies;
   const repliesListContainer = document.createElement('ul');
   repliesListContainer.classList.add('replies-list');
@@ -18,6 +18,13 @@ function createReplies(comment) {
 
     const username = document.createElement('div');
     username.innerText = reply.user.username;
+
+    if (reply.user.username === currentUser.username) {
+      const youSpan = document.createElement('span');
+      youSpan.innerText = 'you';
+      youSpan.classList.add('span-you');
+      username.append(youSpan);
+    }
 
     const commentAge = document.createElement('div');
     commentAge.innerText = reply.createdAt;
@@ -57,6 +64,19 @@ function createReplies(comment) {
     replyContainer.innerText = 'Reply';
     replyContainer.prepend(replyIcon);
 
+    if (reply.user.username === currentUser.username) {
+      const deleteDiv = document.createElement('div');
+      deleteDiv.innerText = 'Delete';
+      deleteDiv.classList.add('div-delete');
+
+      const deleteImg = document.createElement('img');
+      deleteImg.src = '../images/icon-delete.svg';
+      deleteImg.classList.add('icon-delete');
+      deleteDiv.prepend(deleteImg);
+
+      replyContainer.prepend(deleteDiv);
+    }
+
     commentContainer.append(commentUserDiv, commentContent, likesContainer, replyContainer);
     itemElement.append(commentContainer);
 
@@ -73,6 +93,7 @@ function createComments(obj) {
     const itemElement = document.createElement('li');
     const commentContainer = document.createElement('div');
     commentContainer.classList.add('comment');
+    // Need to add user-specific layout elements if comment is from user.
     // content, createdAt, score, user --> image --> png, user --> username, replies
     const commentUserDiv = document.createElement('div');
     commentUserDiv.classList.add('comment-details');
@@ -83,6 +104,13 @@ function createComments(obj) {
 
     const username = document.createElement('div');
     username.innerText = comment.user.username;
+
+    if (comment.user.username === obj.currentUser.username) {
+      const youSpan = document.createElement('span');
+      youSpan.innerText = 'you';
+      youSpan.classList.add('span-you');
+      username.append(youSpan);
+    }
 
     const commentAge = document.createElement('div');
     commentAge.innerText = comment.createdAt;
@@ -118,11 +146,24 @@ function createComments(obj) {
     replyContainer.innerText = 'Reply';
     replyContainer.prepend(replyIcon);
 
+    if (comment.user.username === obj.currentUser.username) {
+      const deleteDiv = document.createElement('div');
+      deleteDiv.innerText = 'Delete';
+      deleteDiv.classList.add('div-delete');
+
+      const deleteImg = document.createElement('img');
+      deleteImg.src = '../images/icon-delete.svg';
+      deleteImg.classList.add('icon-delete');
+      deleteDiv.prepend(deleteImg);
+
+      replyContainer.prepend(deleteDiv);
+    }
+
     commentContainer.append(commentUserDiv, commentContent, likesContainer, replyContainer);
     itemElement.append(commentContainer);
 
     if (comment.replies.length !== 0) {
-      const repliesList = createReplies(comment);
+      const repliesList = createReplies(comment, obj.currentUser);
       itemElement.append(repliesList);
     }
 

@@ -42,6 +42,14 @@ body {
   margin-right: 1rem;
 }
 
+.span-you {
+  background-color: hsl(238, 40%, 52%);
+  padding: 0.25rem 0.5rem;
+  color: hsl(0, 0%, 100%);
+  margin-left: 0.5rem;
+  border-radius: 3px;
+}
+
 .comment-details > div:first-of-type {
   color: hsl(212, 24%, 26%);
   font-weight: 600;
@@ -84,6 +92,17 @@ body {
   align-items: center;
   color: hsl(238, 40%, 52%);
   font-weight: 500;
+}
+
+.div-delete {
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+  color: hsl(358, 79%, 66%);
+}
+
+.icon-delete {
+  margin-right: 0.25rem;
 }
 
 .icon-reply {
