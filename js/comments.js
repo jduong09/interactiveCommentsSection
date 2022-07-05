@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const firstLevelComments = createComments(jsonObj);
 
-      commentSection.append(firstLevelComments);
+      commentSection.prepend(firstLevelComments);
     }
   }
 

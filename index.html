@@ -17,9 +17,22 @@
 <body>
 
   <!-- Pull dynamic content from the data.json file -->
+  <!-- Load div section for adding a comment -->
   <main>
     <div class="comment-section">
-      
+      <div class="comment-user-create">
+        <form class="comment-form">
+          <div>
+            <img id="user-pfp" src="images/avatars/image-juliusomo.png" alt="profile picture of juliusomo" />
+          </div>
+          <label for="form-textArea">
+            <textarea id="form-textArea" rows="4"  placeholder="Add a comment..." ></textarea>
+          </label>
+          <label for="comment-submit">
+            <input type="submit" id="comment-submit" value="Send" />
+          </label>
+        </form>
+      </div>
     </div>
   </main>
 </body>
