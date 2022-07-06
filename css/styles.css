@@ -6,7 +6,7 @@ body {
   background-color: hsl(223, 19%, 93%);
 }
 
-.icon-plus, .icon-minus, .reply-container, #comment-submit {
+.icon-plus, .icon-minus, .div-delete, .reply-container, #comment-submit, #form-textArea:hover {
   cursor: pointer;
 }
 
@@ -86,7 +86,12 @@ body {
   height: 3px;
   margin-left: .75rem;
 }
-/* Main .reply-container */
+/* Main .edit-comments-container */
+.edit-comments-container {
+  display: flex;
+  align-items: center;
+}
+
 .reply-container {
   display: flex;
   align-items: center;
@@ -169,4 +174,18 @@ body {
   background-color: hsl(238, 40%, 52%);
   border-radius: 5px;
   text-transform: uppercase;
+}
+
+/* Active States */
+.div-delete:hover, .reply-container:hover, #comment-submit:hover {
+  opacity: .5;
+}
+
+.icon-plus:hover > path, .icon-minus:hover > path {
+  fill:hsl(238, 40%, 52%);
+}
+
+#form-textArea:focus {
+  outline: none;
+  border: 2px solid hsl(238, 40%, 52%);
 }
