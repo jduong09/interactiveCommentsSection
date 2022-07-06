@@ -68,17 +68,6 @@ function createReplies(comment, currentUser) {
     const editCommentsContainer = document.createElement('div');
     editCommentsContainer.classList.add('edit-comments-container');
 
-    const replyContainer = document.createElement('div');
-    replyContainer.classList.add('reply-container');
-    const replyIcon = document.createElement('img');
-    replyIcon.src = '../images/icon-reply.svg';
-    replyIcon.classList.add('icon-reply');
-
-    replyContainer.innerText = 'Reply';
-    replyContainer.prepend(replyIcon);
-
-    editCommentsContainer.append(replyContainer);
-
     if (reply.user.username === currentUser.username) {
       const deleteDiv = document.createElement('div');
       deleteDiv.innerText = 'Delete';
@@ -89,7 +78,28 @@ function createReplies(comment, currentUser) {
       deleteImg.classList.add('icon-delete');
       deleteDiv.prepend(deleteImg);
 
-      editCommentsContainer.prepend(deleteDiv);
+      const editDiv = document.createElement('div');
+      editDiv.innerText = 'Edit';
+      editDiv.classList.add('edit-reply-container');
+
+      const editImg = document.createElement('img');
+      editImg.src = '../images/icon-edit.svg';
+      editImg.classList.add('icon-edit');
+
+      editDiv.prepend(editImg);
+
+      editCommentsContainer.append(deleteDiv, editDiv);
+    } else {
+      const replyContainer = document.createElement('div');
+      replyContainer.classList.add('edit-reply-container');
+      const replyIcon = document.createElement('img');
+      replyIcon.src = '../images/icon-reply.svg';
+      replyIcon.classList.add('icon-reply');
+
+      replyContainer.innerText = 'Reply';
+      replyContainer.prepend(replyIcon);
+
+      editCommentsContainer.append(replyContainer);
     }
 
     commentContainer.append(commentUserDiv, commentContent, likesContainer, editCommentsContainer);
@@ -150,17 +160,6 @@ function createComments(obj) {
     const editCommentsContainer = document.createElement('div');
     editCommentsContainer.classList.add('edit-comments-container');
 
-    const replyContainer = document.createElement('div');
-    replyContainer.classList.add('reply-container');
-    const replyIcon = document.createElement('img');
-    replyIcon.src = '../images/icon-reply.svg';
-    replyIcon.classList.add('icon-reply');
-
-    replyContainer.innerText = 'Reply';
-    replyContainer.prepend(replyIcon);
-
-    editCommentsContainer.append(replyContainer);
-
     if (comment.user.username === obj.currentUser.username) {
       const deleteDiv = document.createElement('div');
       deleteDiv.innerText = 'Delete';
@@ -171,7 +170,28 @@ function createComments(obj) {
       deleteImg.classList.add('icon-delete');
       deleteDiv.prepend(deleteImg);
 
-      editCommentsContainer.prepend(deleteDiv);
+      const editDiv = document.createElement('div');
+      editDiv.innerText = 'Edit';
+      editDiv.classList.add('edit-reply-container');
+
+      const editImg = document.createElement('img');
+      editImg.src = '../images/icon-edit.svg';
+      editImg.classList.add('icon-edit');
+
+      editDiv.prepend(editImg);
+
+      editCommentsContainer.append(deleteDiv, editDiv);
+    } else {
+        const replyContainer = document.createElement('div');
+        replyContainer.classList.add('edit-reply-container');
+        const replyIcon = document.createElement('img');
+        replyIcon.src = '../images/icon-reply.svg';
+        replyIcon.classList.add('icon-reply');
+
+        replyContainer.innerText = 'Reply';
+        replyContainer.prepend(replyIcon);
+
+        editCommentsContainer.append(replyContainer);
     }
 
     commentContainer.append(commentUserDiv, commentContent, likesContainer, editCommentsContainer);
