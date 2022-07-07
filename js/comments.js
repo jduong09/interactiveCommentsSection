@@ -47,12 +47,14 @@ function createReplies(comment, currentUser) {
 
     commentUserDiv.append(userImg, username, commentAge);
 
-    const commentContent = document.createElement('div');
+    const commentContentContainer = document.createElement('div');
+    const commentContent = document.createElement('span');
     commentContent.innerText = reply.content;
     const replyingToContainer = document.createElement('span');
     replyingToContainer.innerText = `@${reply.replyingTo} `;
     replyingToContainer.classList.add('replyingTo');
-    commentContent.prepend(replyingToContainer);
+
+    commentContentContainer.append(replyingToContainer, commentContent);
 
     const likesContainer = document.createElement('div');
     likesContainer.classList.add('likes-container')
@@ -102,7 +104,7 @@ function createReplies(comment, currentUser) {
       editCommentsContainer.append(replyContainer);
     }
 
-    commentContainer.append(commentUserDiv, commentContent, likesContainer, editCommentsContainer);
+    commentContainer.append(commentUserDiv, commentContentContainer, likesContainer, editCommentsContainer);
     itemElement.append(commentContainer);
 
     repliesListContainer.append(itemElement);
@@ -143,8 +145,10 @@ function createComments(obj) {
 
     commentUserDiv.append(userImg, username, commentAge);
 
-    const commentContent = document.createElement('div');
+    const commentContentContainer = document.createElement('div');
+    const commentContent = document.createElement('span');
     commentContent.innerText = comment.content;
+    commentContentContainer.append(commentContent);
 
     const likesContainer = document.createElement('div');
     likesContainer.classList.add('likes-container')
@@ -194,7 +198,7 @@ function createComments(obj) {
         editCommentsContainer.append(replyContainer);
     }
 
-    commentContainer.append(commentUserDiv, commentContent, likesContainer, editCommentsContainer);
+    commentContainer.append(commentUserDiv, commentContentContainer, likesContainer, editCommentsContainer);
     itemElement.append(commentContainer);
 
     if (comment.replies.length !== 0) {
@@ -240,54 +244,93 @@ window.addEventListener('load', () => {
 
     btn.addEventListener('click', (e) => {
       e.preventDefault();
-      const newReplyContainer = document.createElement('div');
-      newReplyContainer.classList.add('comment-user-create');
-      
-      const commentForm = document.createElement('form');
-      commentForm.classList.add('comment-form');
-      commentForm.id = `comment-form-${i}`;
 
-      const userPfpDiv = document.createElement('div');
-      const userPfp = document.createElement('img');
-      userPfp.src = '../images/avatars/image-juliusomo.png';
-      userPfp.alt = 'profile picture of juliusomo';
-      userPfp.classList.add('user-pfp');
+      if (e.target.innerText === 'Reply') {
+        const newReplyContainer = document.createElement('div');
+        newReplyContainer.classList.add('comment-user-create');
+        
+        const commentForm = document.createElement('form');
+        commentForm.classList.add('comment-form');
+        commentForm.id = `comment-form-${i}`;
 
-      userPfpDiv.append(userPfp);
+        const userPfpDiv = document.createElement('div');
+        const userPfp = document.createElement('img');
+        userPfp.src = '../images/avatars/image-juliusomo.png';
+        userPfp.alt = 'profile picture of juliusomo';
+        userPfp.classList.add('user-pfp');
 
-      const formTextAreaLabel = document.createElement('label');
-      formTextAreaLabel.htmlFor = `form-textArea-${i}`;
+        userPfpDiv.append(userPfp);
 
-      const textArea = document.createElement('textarea');
-      textArea.id = `form-textArea-${i}`;
-      textArea.classList.add('form-textArea');
-      textArea.rows = 4;
-      textArea.value = `@${commentOwner}`;
+        const formTextAreaLabel = document.createElement('label');
+        formTextAreaLabel.htmlFor = `form-textArea-${i}`;
 
-      formTextAreaLabel.append(textArea);
+        const textArea = document.createElement('textarea');
+        textArea.id = `form-textArea-${i}`;
+        textArea.classList.add('form-textArea');
+        textArea.rows = 4;
+        textArea.value = `@${commentOwner}`;
 
-      const commentSubmitLabel = document.createElement('label');
-      commentSubmitLabel.htmlFor = `comment-submit-${i}`;
+        formTextAreaLabel.append(textArea);
 
-      const commentSubmitBtn = document.createElement('input');
-      commentSubmitBtn.type = 'submit';
-      commentSubmitBtn.value = 'Send';
-      commentSubmitBtn.id = `comment-submit-${i}`;
-      commentSubmitBtn.classList.add('comment-submit');
+        const commentSubmitLabel = document.createElement('label');
+        commentSubmitLabel.htmlFor = `comment-submit-${i}`;
 
-      commentSubmitLabel.append(commentSubmitBtn);
+        const commentSubmitBtn = document.createElement('input');
+        commentSubmitBtn.type = 'submit';
+        commentSubmitBtn.value = 'Send';
+        commentSubmitBtn.id = `comment-submit-${i}`;
+        commentSubmitBtn.classList.add('comment-submit');
 
-      commentForm.append(userPfpDiv, formTextAreaLabel, commentSubmitLabel);
+        commentSubmitLabel.append(commentSubmitBtn);
 
-      newReplyContainer.append(commentForm);
+        commentForm.append(userPfpDiv, formTextAreaLabel, commentSubmitLabel);
 
-      if (liCommentParent.children[1]) {
-        const liReplyContainer = document.createElement('li');
-        liReplyContainer.append(newReplyContainer);
+        newReplyContainer.append(commentForm);
 
-        liCommentParent.children[1].append(liReplyContainer);
+        if (liCommentParent.children[1]) {
+          const liReplyContainer = document.createElement('li');
+          liReplyContainer.append(newReplyContainer);
+
+          liCommentParent.children[1].append(liReplyContainer);
+        } else {
+          liCommentParent.append(newReplyContainer);
+        }
       } else {
-        liCommentParent.append(newReplyContainer);
+        const editComment = e.target.parentElement.parentElement;
+        const commentBody = editComment.children[1].children[1].innerText;
+
+        const formDiv = document.createElement('div');
+        const formEle = document.createElement('form');
+        formEle.id = 'edit-comment-form';
+
+        const editLabelEle = document.createElement('label');
+        editLabelEle.htmlFor = 'edit-form-input';
+        const editTextAreaEle = document.createElement('textarea');
+        editTextAreaEle.id = 'edit-form-textarea';
+        editTextAreaEle.classList.add('form-textArea');
+        editTextAreaEle.rows = 4;
+        editTextAreaEle.value = commentBody;
+
+        editLabelEle.append(editTextAreaEle);
+
+        const editSubmitInputEle = document.createElement('input');
+        editSubmitInputEle.type = 'submit';
+        editSubmitInputEle.id = 'edit-form-submit-btn';
+        editSubmitInputEle.value= 'Update';
+
+        formEle.append(editLabelEle, editSubmitInputEle);
+
+        formDiv.append(formEle);
+
+        const removedCommentBody = editComment.replaceChild(formDiv, editComment.children[1]);
+
+        editSubmitInputEle.addEventListener('click', (e) => {
+          e.preventDefault();
+          const editedCommentBody = document.createElement('span');
+          editedCommentBody.innerText = editTextAreaEle.value;
+          removedCommentBody.replaceChild(editedCommentBody, removedCommentBody.children[1]);
+          editComment.replaceChild(removedCommentBody, formDiv);
+        });
       }
     });
   }
