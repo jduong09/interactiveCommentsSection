@@ -6,7 +6,7 @@ body {
   background-color: hsl(223, 19%, 93%);
 }
 
-.icon-plus, .icon-minus, .div-delete, .edit-reply-container, #comment-submit, #form-textArea:hover {
+.icon-plus, .icon-minus, .div-delete, .edit-reply-container, .comment-submit, .form-textArea:hover {
   cursor: pointer;
 }
 
@@ -137,7 +137,7 @@ body {
   margin-bottom: 1rem;
 }
 
-.comment-user-create, .comment-form, #form-textArea {
+.comment-user-create, .comment-form, .form-textArea {
   width: 100%;
 }
 
@@ -153,7 +153,7 @@ body {
   order: 1;
 }
 
-#form-textArea {
+.form-textArea {
   margin-bottom: 1rem;
   padding: 1rem;
   border: 2px solid hsl(223, 19%, 93%);
@@ -169,12 +169,12 @@ body {
   order: 3;
 }
 
-#user-pfp {
+.user-pfp {
   width: 36px;
   height: 36px;
 }
 
-#comment-submit {
+.comment-submit {
   padding: 0.75rem 1.5rem;
   color: white;
   background-color: hsl(238, 40%, 52%);
@@ -183,7 +183,7 @@ body {
 }
 
 /* Active States */
-.div-delete:hover, .edit-reply-container:hover, #comment-submit:hover {
+.div-delete:hover, .edit-reply-container:hover, .comment-submit:hover {
   opacity: .5;
 }
 
@@ -191,7 +191,7 @@ body {
   fill:hsl(238, 40%, 52%);
 }
 
-#form-textArea:focus {
+.form-textArea:focus {
   outline: none;
   border: 2px solid hsl(238, 40%, 52%);
 }

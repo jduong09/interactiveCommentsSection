@@ -69,7 +69,7 @@ function createReplies(comment, currentUser) {
     editCommentsContainer.classList.add('edit-comments-container');
 
     if (reply.user.username === currentUser.username) {
-      const deleteDiv = document.createElement('div');
+      const deleteDiv = document.createElement('button');
       deleteDiv.innerText = 'Delete';
       deleteDiv.classList.add('div-delete');
 
@@ -78,7 +78,7 @@ function createReplies(comment, currentUser) {
       deleteImg.classList.add('icon-delete');
       deleteDiv.prepend(deleteImg);
 
-      const editDiv = document.createElement('div');
+      const editDiv = document.createElement('button');
       editDiv.innerText = 'Edit';
       editDiv.classList.add('edit-reply-container');
 
@@ -90,7 +90,7 @@ function createReplies(comment, currentUser) {
 
       editCommentsContainer.append(deleteDiv, editDiv);
     } else {
-      const replyContainer = document.createElement('div');
+      const replyContainer = document.createElement('button');
       replyContainer.classList.add('edit-reply-container');
       const replyIcon = document.createElement('img');
       replyIcon.src = '../images/icon-reply.svg';
@@ -161,7 +161,7 @@ function createComments(obj) {
     editCommentsContainer.classList.add('edit-comments-container');
 
     if (comment.user.username === obj.currentUser.username) {
-      const deleteDiv = document.createElement('div');
+      const deleteDiv = document.createElement('button');
       deleteDiv.innerText = 'Delete';
       deleteDiv.classList.add('div-delete');
 
@@ -170,7 +170,7 @@ function createComments(obj) {
       deleteImg.classList.add('icon-delete');
       deleteDiv.prepend(deleteImg);
 
-      const editDiv = document.createElement('div');
+      const editDiv = document.createElement('button');
       editDiv.innerText = 'Edit';
       editDiv.classList.add('edit-reply-container');
 
@@ -182,7 +182,7 @@ function createComments(obj) {
 
       editCommentsContainer.append(deleteDiv, editDiv);
     } else {
-        const replyContainer = document.createElement('div');
+        const replyContainer = document.createElement('button');
         replyContainer.classList.add('edit-reply-container');
         const replyIcon = document.createElement('img');
         replyIcon.src = '../images/icon-reply.svg';
@@ -226,3 +226,69 @@ document.addEventListener('DOMContentLoaded', () => {
   xmlhttp.open('GET', '../data.json', true);
   xmlhttp.send();
 });
+
+window.addEventListener('load', () => {
+  const replyAndEditBtns = document.getElementsByClassName('edit-reply-container');
+
+  for (let i = 0; i < replyAndEditBtns.length; i++) {
+    const btn = replyAndEditBtns[i];
+    const commentParent = btn.parentElement.parentElement;
+    commentParent.id = `comment-${i}`;
+    const commentOwner = commentParent.children[0].children[1].innerText;
+
+    const liCommentParent = commentParent.parentElement;
+
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const newReplyContainer = document.createElement('div');
+      newReplyContainer.classList.add('comment-user-create');
+      
+      const commentForm = document.createElement('form');
+      commentForm.classList.add('comment-form');
+      commentForm.id = `comment-form-${i}`;
+
+      const userPfpDiv = document.createElement('div');
+      const userPfp = document.createElement('img');
+      userPfp.src = '../images/avatars/image-juliusomo.png';
+      userPfp.alt = 'profile picture of juliusomo';
+      userPfp.classList.add('user-pfp');
+
+      userPfpDiv.append(userPfp);
+
+      const formTextAreaLabel = document.createElement('label');
+      formTextAreaLabel.htmlFor = `form-textArea-${i}`;
+
+      const textArea = document.createElement('textarea');
+      textArea.id = `form-textArea-${i}`;
+      textArea.classList.add('form-textArea');
+      textArea.rows = 4;
+      textArea.value = `@${commentOwner}`;
+
+      formTextAreaLabel.append(textArea);
+
+      const commentSubmitLabel = document.createElement('label');
+      commentSubmitLabel.htmlFor = `comment-submit-${i}`;
+
+      const commentSubmitBtn = document.createElement('input');
+      commentSubmitBtn.type = 'submit';
+      commentSubmitBtn.value = 'Send';
+      commentSubmitBtn.id = `comment-submit-${i}`;
+      commentSubmitBtn.classList.add('comment-submit');
+
+      commentSubmitLabel.append(commentSubmitBtn);
+
+      commentForm.append(userPfpDiv, formTextAreaLabel, commentSubmitLabel);
+
+      newReplyContainer.append(commentForm);
+
+      if (liCommentParent.children[1]) {
+        const liReplyContainer = document.createElement('li');
+        liReplyContainer.append(newReplyContainer);
+
+        liCommentParent.children[1].append(liReplyContainer);
+      } else {
+        liCommentParent.append(newReplyContainer);
+      }
+    });
+  }
+})
