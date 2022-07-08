@@ -1,4 +1,4 @@
-html, body, div, span, h1, h2, h3, p, a, img, header, footer, nav, section, ul, li, form, input, textarea {
+html, body, div, span, h1, h2, h3, p, a, img, header, footer, nav, section, ul, li, form, input, textarea, button {
   margin: 0;
   padding: 0;
   border: 0;
@@ -6,7 +6,7 @@ html, body, div, span, h1, h2, h3, p, a, img, header, footer, nav, section, ul, 
   box-sizing: border-box;
   color: inherit;
   text-decoration: none;
-
+  background: transparent;
 }
 
 img {
