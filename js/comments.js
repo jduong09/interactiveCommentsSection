@@ -54,7 +54,8 @@ function addEditReplyContainer(comment, currentUser) {
   return editCommentsContainer;
 }
 
-function configureReplyButton (commentOwner, buttonIndex) {
+function configureReplyButton (commentParent, buttonIndex, currentUser) {
+  const commentOwner = commentParent.children[0].children[1].innerText;
   const newReplyContainer = document.createElement('div');
   newReplyContainer.classList.add('comment-user-create');
   
@@ -77,7 +78,7 @@ function configureReplyButton (commentOwner, buttonIndex) {
   textArea.id = `form-textArea-${buttonIndex}`;
   textArea.classList.add('form-textArea');
   textArea.rows = 4;
-  textArea.value = `@${commentOwner}`;
+  textArea.placeholder = `@${commentOwner}`;
 
   formTextAreaLabel.append(textArea);
 
@@ -91,6 +92,33 @@ function configureReplyButton (commentOwner, buttonIndex) {
   commentSubmitBtn.classList.add('comment-submit');
 
   commentSubmitLabel.append(commentSubmitBtn);
+
+  commentSubmitBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    // addReplyCommentList();
+
+    const commentInfo = {
+      "user": {
+        "image": {
+          "png": currentUser.image.png
+        }, 
+        "username": currentUser.username
+      },
+      "content": textArea.value,
+      "createdAt": "1 minute ago",
+      "score": 1
+    };
+
+    const submittedReply = createCommentStructure(commentInfo, currentUser);
+
+    const listItem = document.createElement('li');
+    listItem.append(submittedReply);
+
+    // remove comment reply form
+    document.getElementById(`li-comment-${buttonIndex}`).remove();
+    
+    commentParent.parentElement.children[1].append(listItem);
+  });
 
   commentForm.append(userPfpDiv, formTextAreaLabel, commentSubmitLabel);
 
@@ -133,14 +161,13 @@ function createEditForm(editComment, commentBody) {
   });
 }
 
-function configureEditReplyEventListeners() {
+function configureEditReplyEventListeners(currentUserObj) {
   const replyAndEditBtns = document.getElementsByClassName('edit-reply-container');
 
   for (let i = 0; i < replyAndEditBtns.length; i++) {
     const btn = replyAndEditBtns[i];
     const commentParent = btn.parentElement.parentElement;
     commentParent.id = `comment-${i}`;
-    const commentOwner = commentParent.children[0].children[1].innerText;
 
     const liCommentParent = commentParent.parentElement;
 
@@ -149,16 +176,26 @@ function configureEditReplyEventListeners() {
 
       // configure reply button event listener.
       if (e.target.innerText === 'Reply') {
-        const replyContainer = configureReplyButton(commentOwner, i);
+        const replyContainer = configureReplyButton(commentParent, i, currentUserObj);
 
         // append reply box to comment reply list.
         if (liCommentParent.children[1]) {
           const liReplyContainer = document.createElement('li');
+          liReplyContainer.id = `li-comment-${i}`;
           liReplyContainer.append(replyContainer);
 
           liCommentParent.children[1].append(liReplyContainer);
         } else {
-          liCommentParent.append(replyContainer);
+          // create a replies-list.
+          const repliesListContainer = document.createElement('ul');
+          repliesListContainer.classList.add('replies-list');
+
+          const liReplyContainer = document.createElement('li');
+          liReplyContainer.id = `li-comment-${i}`;
+          liReplyContainer.append(replyContainer);
+          repliesListContainer.append(liReplyContainer);
+
+          liCommentParent.append(repliesListContainer);
         }
       } else {
         // configure edit button event listener
@@ -276,7 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const firstLevelComments = createComments(jsonObj);
 
       commentSection.prepend(firstLevelComments);
-      configureEditReplyEventListeners();
+      configureEditReplyEventListeners(jsonObj.currentUser);
     }
   }
 
