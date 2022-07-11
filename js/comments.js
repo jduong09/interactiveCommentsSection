@@ -54,6 +54,85 @@ function addEditReplyContainer(comment, currentUser) {
   return editCommentsContainer;
 }
 
+function configureReplyButton (commentOwner, buttonIndex) {
+  const newReplyContainer = document.createElement('div');
+  newReplyContainer.classList.add('comment-user-create');
+  
+  const commentForm = document.createElement('form');
+  commentForm.classList.add('comment-form');
+  commentForm.id = `comment-form-${buttonIndex}`;
+
+  const userPfpDiv = document.createElement('div');
+  const userPfp = document.createElement('img');
+  userPfp.src = '../images/avatars/image-juliusomo.png';
+  userPfp.alt = 'profile picture of juliusomo';
+  userPfp.classList.add('user-pfp');
+
+  userPfpDiv.append(userPfp);
+
+  const formTextAreaLabel = document.createElement('label');
+  formTextAreaLabel.htmlFor = `form-textArea-${buttonIndex}`;
+
+  const textArea = document.createElement('textarea');
+  textArea.id = `form-textArea-${buttonIndex}`;
+  textArea.classList.add('form-textArea');
+  textArea.rows = 4;
+  textArea.value = `@${commentOwner}`;
+
+  formTextAreaLabel.append(textArea);
+
+  const commentSubmitLabel = document.createElement('label');
+  commentSubmitLabel.htmlFor = `comment-submit-${buttonIndex}`;
+
+  const commentSubmitBtn = document.createElement('input');
+  commentSubmitBtn.type = 'submit';
+  commentSubmitBtn.value = 'Send';
+  commentSubmitBtn.id = `comment-submit-${buttonIndex}`;
+  commentSubmitBtn.classList.add('comment-submit');
+
+  commentSubmitLabel.append(commentSubmitBtn);
+
+  commentForm.append(userPfpDiv, formTextAreaLabel, commentSubmitLabel);
+
+  newReplyContainer.append(commentForm);
+  return newReplyContainer;
+}
+
+function createEditForm(editComment, commentBody) {
+  const formDiv = document.createElement('div');
+  const formEle = document.createElement('form');
+  formEle.id = 'edit-comment-form';
+
+  const editLabelEle = document.createElement('label');
+  editLabelEle.htmlFor = 'edit-form-input';
+  const editTextAreaEle = document.createElement('textarea');
+  editTextAreaEle.id = 'edit-form-textarea';
+  editTextAreaEle.classList.add('form-textArea');
+  editTextAreaEle.rows = 4;
+  editTextAreaEle.value = commentBody;
+
+  editLabelEle.append(editTextAreaEle);
+
+  const editSubmitInputEle = document.createElement('input');
+  editSubmitInputEle.type = 'submit';
+  editSubmitInputEle.id = 'edit-form-submit-btn';
+  editSubmitInputEle.value= 'Update';
+
+  formEle.append(editLabelEle, editSubmitInputEle);
+
+  formDiv.append(formEle);
+
+  const removedCommentBody = editComment.replaceChild(formDiv, editComment.children[1]);
+
+  editSubmitInputEle.addEventListener('click', (e) => {
+    e.preventDefault();
+    const editedCommentBody = document.createElement('span');
+    editedCommentBody.innerText = editTextAreaEle.value;
+    removedCommentBody.replaceChild(editedCommentBody, removedCommentBody.children[1]);
+    editComment.replaceChild(removedCommentBody, formDiv);
+  });
+}
+
 function createCommentStructure(commentInfo, currentUser) {
   // const itemElement = document.createElement('li');
   const commentContainer = document.createElement('div');
@@ -180,92 +259,25 @@ window.addEventListener('load', () => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
 
+      // configure reply button event listener.
       if (e.target.innerText === 'Reply') {
-        const newReplyContainer = document.createElement('div');
-        newReplyContainer.classList.add('comment-user-create');
-        
-        const commentForm = document.createElement('form');
-        commentForm.classList.add('comment-form');
-        commentForm.id = `comment-form-${i}`;
+        const replyContainer = configureReplyButton(commentOwner, i);
 
-        const userPfpDiv = document.createElement('div');
-        const userPfp = document.createElement('img');
-        userPfp.src = '../images/avatars/image-juliusomo.png';
-        userPfp.alt = 'profile picture of juliusomo';
-        userPfp.classList.add('user-pfp');
-
-        userPfpDiv.append(userPfp);
-
-        const formTextAreaLabel = document.createElement('label');
-        formTextAreaLabel.htmlFor = `form-textArea-${i}`;
-
-        const textArea = document.createElement('textarea');
-        textArea.id = `form-textArea-${i}`;
-        textArea.classList.add('form-textArea');
-        textArea.rows = 4;
-        textArea.value = `@${commentOwner}`;
-
-        formTextAreaLabel.append(textArea);
-
-        const commentSubmitLabel = document.createElement('label');
-        commentSubmitLabel.htmlFor = `comment-submit-${i}`;
-
-        const commentSubmitBtn = document.createElement('input');
-        commentSubmitBtn.type = 'submit';
-        commentSubmitBtn.value = 'Send';
-        commentSubmitBtn.id = `comment-submit-${i}`;
-        commentSubmitBtn.classList.add('comment-submit');
-
-        commentSubmitLabel.append(commentSubmitBtn);
-
-        commentForm.append(userPfpDiv, formTextAreaLabel, commentSubmitLabel);
-
-        newReplyContainer.append(commentForm);
-
+        // append reply box to comment reply list.
         if (liCommentParent.children[1]) {
           const liReplyContainer = document.createElement('li');
-          liReplyContainer.append(newReplyContainer);
+          liReplyContainer.append(replyContainer);
 
           liCommentParent.children[1].append(liReplyContainer);
         } else {
-          liCommentParent.append(newReplyContainer);
+          liCommentParent.append(replyContainer);
         }
       } else {
+        // configure edit button event listener
         const editComment = e.target.parentElement.parentElement;
         const commentBody = editComment.children[1].children[1].innerText;
 
-        const formDiv = document.createElement('div');
-        const formEle = document.createElement('form');
-        formEle.id = 'edit-comment-form';
-
-        const editLabelEle = document.createElement('label');
-        editLabelEle.htmlFor = 'edit-form-input';
-        const editTextAreaEle = document.createElement('textarea');
-        editTextAreaEle.id = 'edit-form-textarea';
-        editTextAreaEle.classList.add('form-textArea');
-        editTextAreaEle.rows = 4;
-        editTextAreaEle.value = commentBody;
-
-        editLabelEle.append(editTextAreaEle);
-
-        const editSubmitInputEle = document.createElement('input');
-        editSubmitInputEle.type = 'submit';
-        editSubmitInputEle.id = 'edit-form-submit-btn';
-        editSubmitInputEle.value= 'Update';
-
-        formEle.append(editLabelEle, editSubmitInputEle);
-
-        formDiv.append(formEle);
-
-        const removedCommentBody = editComment.replaceChild(formDiv, editComment.children[1]);
-
-        editSubmitInputEle.addEventListener('click', (e) => {
-          e.preventDefault();
-          const editedCommentBody = document.createElement('span');
-          editedCommentBody.innerText = editTextAreaEle.value;
-          removedCommentBody.replaceChild(editedCommentBody, removedCommentBody.children[1]);
-          editComment.replaceChild(removedCommentBody, formDiv);
-        });
+        createEditForm(editComment, commentBody);
       }
     });
   }
