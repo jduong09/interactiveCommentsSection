@@ -133,6 +133,44 @@ function createEditForm(editComment, commentBody) {
   });
 }
 
+function configureEditReplyEventListeners() {
+  const replyAndEditBtns = document.getElementsByClassName('edit-reply-container');
+
+  for (let i = 0; i < replyAndEditBtns.length; i++) {
+    const btn = replyAndEditBtns[i];
+    const commentParent = btn.parentElement.parentElement;
+    commentParent.id = `comment-${i}`;
+    const commentOwner = commentParent.children[0].children[1].innerText;
+
+    const liCommentParent = commentParent.parentElement;
+
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+
+      // configure reply button event listener.
+      if (e.target.innerText === 'Reply') {
+        const replyContainer = configureReplyButton(commentOwner, i);
+
+        // append reply box to comment reply list.
+        if (liCommentParent.children[1]) {
+          const liReplyContainer = document.createElement('li');
+          liReplyContainer.append(replyContainer);
+
+          liCommentParent.children[1].append(liReplyContainer);
+        } else {
+          liCommentParent.append(replyContainer);
+        }
+      } else {
+        // configure edit button event listener
+        const editComment = e.target.parentElement.parentElement;
+        const commentBody = editComment.children[1].children[1].innerText;
+
+        createEditForm(editComment, commentBody);
+      }
+    });
+  }
+}
+
 function createCommentStructure(commentInfo, currentUser) {
   // const itemElement = document.createElement('li');
   const commentContainer = document.createElement('div');
@@ -238,6 +276,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const firstLevelComments = createComments(jsonObj);
 
       commentSection.prepend(firstLevelComments);
+      configureEditReplyEventListeners();
     }
   }
 
@@ -245,40 +284,3 @@ document.addEventListener('DOMContentLoaded', () => {
   xmlhttp.send();
 });
 
-window.addEventListener('load', () => {
-  const replyAndEditBtns = document.getElementsByClassName('edit-reply-container');
-
-  for (let i = 0; i < replyAndEditBtns.length; i++) {
-    const btn = replyAndEditBtns[i];
-    const commentParent = btn.parentElement.parentElement;
-    commentParent.id = `comment-${i}`;
-    const commentOwner = commentParent.children[0].children[1].innerText;
-
-    const liCommentParent = commentParent.parentElement;
-
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-
-      // configure reply button event listener.
-      if (e.target.innerText === 'Reply') {
-        const replyContainer = configureReplyButton(commentOwner, i);
-
-        // append reply box to comment reply list.
-        if (liCommentParent.children[1]) {
-          const liReplyContainer = document.createElement('li');
-          liReplyContainer.append(replyContainer);
-
-          liCommentParent.children[1].append(liReplyContainer);
-        } else {
-          liCommentParent.append(replyContainer);
-        }
-      } else {
-        // configure edit button event listener
-        const editComment = e.target.parentElement.parentElement;
-        const commentBody = editComment.children[1].children[1].innerText;
-
-        createEditForm(editComment, commentBody);
-      }
-    });
-  }
-})
