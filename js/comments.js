@@ -27,6 +27,29 @@ function addEditReplyContainer(comment, currentUser) {
     deleteImg.classList.add('icon-delete');
     deleteDiv.prepend(deleteImg);
 
+    deleteDiv.addEventListener('click', (e) => {
+      e.preventDefault();
+
+      const deleteModal = document.getElementById('modal-delete');
+      deleteModal.classList.remove('hide');
+
+      const backgroundModal = document.getElementById('modal-background');
+      backgroundModal.classList.remove('hide');
+
+      const commentDiv = e.target.parentElement.parentElement;
+
+      deleteModal.children[2].addEventListener('click', () => {
+        deleteModal.classList.add('hide');
+        backgroundModal.classList.add('hide');
+      });
+
+      deleteModal.children[3].addEventListener('click', () => {
+        deleteModal.classList.add('hide');
+        backgroundModal.classList.add('hide');
+        commentDiv.remove();
+      });
+    });
+
     const editDiv = document.createElement('button');
     editDiv.innerText = 'Edit';
     editDiv.classList.add('edit-reply-container');
@@ -95,7 +118,6 @@ function configureReplyButton (commentParent, buttonIndex, currentUser) {
 
   commentSubmitBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    // addReplyCommentList();
 
     const commentInfo = {
       "user": {
