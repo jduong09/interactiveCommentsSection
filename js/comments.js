@@ -77,6 +77,40 @@ function addEditReplyContainer(comment, currentUser) {
   return editCommentsContainer;
 }
 
+function configureNewCommentEventListener(currentUser) {
+  const newCommentSubmitInput = document.getElementById('comment-submit');
+
+  newCommentSubmitInput.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    const newCommentForm = e.target.parentElement.parentElement;
+
+    const textAreaValue = newCommentForm.children[1].children[0].value;
+
+    // create comment
+    const newCommentInfo = {
+      "user": {
+        "image": {
+          "png": currentUser.image.png
+        }, 
+        "username": currentUser.username
+      },
+      "content": textAreaValue,
+      "createdAt": "1 minute ago",
+      "score": 1
+    };
+
+    const newComment = createCommentStructure(newCommentInfo, currentUser);
+    const liItem = document.createElement('li');
+    liItem.append(newComment);
+
+    // append comment to comment list.
+    const commentList = document.querySelector('.comment-section');
+    commentList.children[0].append(liItem);
+    newCommentForm.children[1].children[0].value = '';
+  });
+}
+
 function configureReplyButton (commentParent, buttonIndex, currentUser) {
   const commentOwner = commentParent.children[0].children[1].innerText;
   const newReplyContainer = document.createElement('div');
@@ -336,6 +370,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       commentSection.prepend(firstLevelComments);
       configureEditReplyEventListeners(jsonObj.currentUser);
+      configureNewCommentEventListener(jsonObj.currentUser);
     }
   }
 

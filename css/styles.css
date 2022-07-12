@@ -63,6 +63,7 @@ main {
 }
 /* Main .comment > div:nth-of-type(2) (content div) */ 
 .comment > div:nth-of-type(2) {
+  width: 100%;
   margin-bottom: 1rem;
   line-height: 1.5rem;
 }
