@@ -10,7 +10,14 @@ body {
   cursor: pointer;
 }
 
+.hide {
+  display: none !important;
+}
+
 /* Main */
+main {
+  position: relative;
+}
 
 /* Main .comment-section */
 .comment-section {
@@ -185,6 +192,71 @@ body {
 /* Main Edit Form */
 #edit-form-submit-btn {
   padding: .25rem .5rem;
+}
+
+/* Main #modal-delete */
+#modal-delete {
+  position: absolute;
+  top: 20%;
+  left: 5%;
+  transform: translateX(-2.5%);
+  width: 95%;
+  padding: 1.5rem;
+  z-index: 3;
+  background-color: hsl(0, 0%, 100%);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+#modal-delete > h2 {
+  margin-bottom: 1rem;
+  font-size: 1.25rem;;
+  font-weight: 700;
+  color: hsl(212, 24%, 26%);
+  flex: 1 100%;
+}
+
+#modal-delete > div {
+  margin-bottom: 1rem;
+  line-height: 1.5rem;
+  flex: 1 100%;
+  color: hsl(211, 10%, 45%);
+}
+
+#modal-delete > button {
+  width: 47.5%;
+  padding: 1rem;
+  border-radius: 8px;
+  text-transform: uppercase;
+  color: hsl(0, 0%, 100%);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+#modal-delete > button:first-of-type {
+  background-color: hsl(211, 10%, 45%);
+}
+
+#modal-delete > button:last-of-type {
+  background-color:hsl(358, 79%, 66%);
+}
+
+#modal-delete > button:hover {
+  opacity: .5;
+}
+
+/* Main #modal-background */
+#modal-background {
+  background-color: hsl(0, 0%, 50%, .5);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
 }
 
 /* Active States */
