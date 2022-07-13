@@ -273,3 +273,53 @@ main {
   outline: none;
   border: 2px solid hsl(238, 40%, 52%);
 }
+
+/* Media Query: 576px */
+@media (min-width: 576px) {
+  .comment {
+    flex-direction: column;
+    height: 175px;
+    position: relative;
+  }
+
+  .comment-details {
+    width: 60%;
+    height: 30%;
+    margin: 0;
+    order: 2;
+  }
+
+  .comment > div:nth-of-type(2) {
+    width: 85%;
+    height: 70%;
+    margin: 0;
+    order: 3;
+  }
+
+  .likes-container {
+    width: 10%;
+    height: 80%;
+    order: 1;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-right: 1rem;
+  }
+
+  .icon-plus, .icon-minus {
+    margin: 0;
+  }
+
+  .edit-comments-container {
+    width: auto;
+    height: 20%;
+    position: absolute;
+    top: 11%;
+    right: 1rem;
+  }
+
+  #modal-delete {
+    width: 75%;
+    left: 12.5%;
+    transform: none;
+  }
+}
