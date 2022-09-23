@@ -391,7 +391,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  xmlhttp.open('GET', '../data.json', true);
+  xmlhttp.open('GET', './data.json', true);
   xmlhttp.send();
 });
 
